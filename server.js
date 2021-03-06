@@ -24,7 +24,20 @@ app.get("/api/notes", (req, res) => {
   });
 });
 
-app.post("/api/notes", (req, res) => {});
+app.post("/api/notes", (req, res) => {
+  let noteDB = require("./db/db.json");
+  const newNote = req.body;
+
+  newNote.id = uniqid();
+
+  noteDB.push(newNote);
+
+  fs.writeFile("./db/db.json", JSON.stringify(noteDB), (err) => {
+    if (err) throw err;
+  });
+
+  res.json(noteDB);
+});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/", "index.html"));
