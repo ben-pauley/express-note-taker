@@ -39,6 +39,23 @@ app.post("/api/notes", (req, res) => {
   res.json(noteDB);
 });
 
+app.delete("/api/notes/:id", (req, res) => {
+  let noteDB = require("./db/db.json");
+  const noteId = req.params.id;
+
+  for (let i = 0; i < noteDB.length; i++) {
+    if (noteId === noteDB[i].id) {
+      noteDB.splice(i, 1);
+    }
+  }
+
+  fs.writeFile("./db/db.json", JSON.stringify(noteDB), (err) => {
+    if (err) throw err;
+  });
+
+  res.json(noteDB);
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/", "index.html"));
 });
