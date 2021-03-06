@@ -8,9 +8,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Sets up the Express app to handle data parsing
+// required for requests to be handled properly
 app.use(express.urlencoded({ extended: true }));
+// sets default communication
 app.use(express.json());
 
+// static files required that don't need to change dynamically
 app.use("/", express.static("./public"));
 
 app.get("/notes", (req, res) => {
